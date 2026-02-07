@@ -53,19 +53,14 @@ export const api = {
   listarPedidosCompra: () => fetchAPI('/pedido/compra/listar'),
   listarPedidosVenda: () => fetchAPI('/pedido/venda/listar'),
 
-  // Transacoes (Itens)
-  adicionarItemCompra: (data) => fetchAPI('/transacao/compra', { method: 'POST', body: JSON.stringify(data) }),
-  adicionarItemVenda: (data) => fetchAPI('/transacao/venda', { method: 'POST', body: JSON.stringify(data) }),
-  obterHistoricoProduto: (id) => fetchAPI(`/transacao/produto?id=${id}`),
+  // Transacoes (Consulta)
+  listarTransacoesPorDocumento: (nro) => fetchAPI(`/transacao/documento?nroDocumento=${nro}`),
   obterHistoricoProduto: (id, start, end) => {
     let url = `/transacao/produto?id=${id}`;
     if (start) url += `&dataInicio=${start}`;
     if (end) url += `&dataFim=${end}`;
     return fetchAPI(url);
   },
-  listarTodasTransacoes: () => fetchAPI('/transacao/todas'),
-  listarTransacoesPorDocumento: (nro) => fetchAPI(`/transacao/documento?nroDocumento=${nro}`),
-  testarTransacao: (tipo) => fetchAPI(`/teste/transacao?tipo=${tipo}`, { method: 'POST' }),
   
   // Enderecos
   listarEnderecos: () => fetchAPI('/endereco/lista'),

@@ -9,13 +9,11 @@ import ProductForm from './pages/ProductForm';
 import ProductKardex from './pages/ProductKardex';
 import OrderForm from './pages/OrderForm';
 import OrderList from './pages/OrderList';
-import TransactionList from './pages/TransactionList';
 import ClientList from './pages/ClientList';
 import ClientForm from './pages/ClientForm';
 import SupplierList from './pages/SupplierList';
 import SupplierForm from './pages/SupplierForm';
 import OrderDetail from './pages/OrderDetail';
-import TransactionTestPage from './pages/TransactionTestPage';
 
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth();
@@ -56,8 +54,6 @@ function App() {
                   <Route path="/pedidos/venda/novo" element={<OrderForm type="venda" />} />
                   <Route path="/pedidos/devolucao/novo" element={<OrderForm type="devolucao" />} />
 
-                  <Route path="/transacoes" element={<TransactionList />} />
-                  <Route path="/testes/transacao" element={<TransactionTestPage />} />
                   
                   {/* Fallback */}
                   <Route path="*" element={<Navigate to="/" replace />} />

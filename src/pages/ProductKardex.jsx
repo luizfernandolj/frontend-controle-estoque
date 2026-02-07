@@ -35,9 +35,9 @@ export default function ProductKardex() {
                  const type = (item.tipoOperacao || '').toUpperCase();
                  
                  // Heuristic for Input vs Output
-                 // Inputs: COMPRA, ENTRADA, DEVOLUCAO (assuming sales return adds stock)
+                 // Inputs: COMPRA, ENTRADA, DEV_VENDACAO (assuming sales return adds stock)
                  // Outputs: VENDA, SAIDA
-                 if (type.includes('COMPRA') || type.includes('ENTRADA') || type.includes('DEVOLU')) {
+                 if (type.includes('COMPRA') || type.includes('ENTRADA') || type.includes('DEV_VENDA')) {
                      balance += qty;
                  } else {
                      // Assume VENDA or SAIDA
@@ -151,7 +151,7 @@ export default function ProductKardex() {
                                     const type = (item.tipoOperacao || '').toUpperCase();
                                     const qty = Number(item.quantidade) || 0;
                                     
-                                    if (type.includes('COMPRA') || type.includes('DEVOLU') || type.includes('ENTRADA')) {
+                                    if (type.includes('COMPRA') || type.includes('DEV_VENDA') || type.includes('ENTRADA')) {
                                         return acc + qty;
                                     } else {
                                         return acc - qty;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Package, TrendingUp, TrendingDown, Users, Truck, FileText, Database } from 'lucide-react';
+import { Package, TrendingUp, TrendingDown, Users, Truck } from 'lucide-react';
 
 const StatCard = ({ title, value, icon: Icon, color }) => (
   <div className="card p-6 hover:scale-[1.02] transition-transform">
@@ -79,13 +79,6 @@ export default function Dashboard() {
             Atalhos Administrativos
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-             <Link to="/transacoes" className="flex-between" style={{ padding: '1rem', background: 'var(--bg-secondary)', borderRadius: '8px', textDecoration: 'none', color: 'inherit', border: '1px solid transparent', transition: 'all 0.2s', cursor: 'pointer' }}>
-                <div className="flex-gap">
-                    <FileText size={18} style={{ color: 'var(--accent-primary)' }} />
-                    <span style={{ fontWeight: '500' }}>Ver Histórico Global</span>
-                </div>
-                <Users size={18} style={{ opacity: 0 }} /> {/* Spacer */}
-             </Link>
              <Link to="/clientes" className="flex-between" style={{ padding: '1rem', background: 'var(--bg-secondary)', borderRadius: '8px', textDecoration: 'none', color: 'inherit', border: '1px solid transparent', transition: 'all 0.2s', cursor: 'pointer' }}>
                 <div className="flex-gap">
                     <Users size={18} style={{ color: 'var(--info)' }} />
@@ -99,13 +92,6 @@ export default function Dashboard() {
                     <span style={{ fontWeight: '500' }}>Gerenciar Fornecedores</span>
                 </div>
                 <div style={{ color: 'var(--warning)' }}>→</div>
-             </Link>
-             <Link to="/testes/transacao" className="flex-between" style={{ padding: '1rem', background: 'var(--bg-secondary)', borderRadius: '8px', textDecoration: 'none', color: 'inherit', border: '1px solid transparent', transition: 'all 0.2s', cursor: 'pointer' }}>
-                <div className="flex-gap">
-                    <Database size={18} style={{ color: '#a855f7' }} />
-                    <span style={{ fontWeight: '500' }}>Laboratório de Transações</span>
-                </div>
-                <div style={{ color: '#a855f7' }}>→</div>
              </Link>
           </div>
         </div>

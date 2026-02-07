@@ -99,14 +99,14 @@ export default function ProductList() {
                     </td>
                     <td>
                         <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
-                            <button 
-                                onClick={() => navigate(`/produtos/${product.idProduto}/kardex`)}
-                                className="btn btn-outline"
-                                style={{ padding: '0.25rem 0.5rem', fontSize: '0.8rem' }}
-                                title="Ver Kardex"
-                            >
-                                <FileText size={14} /> Histórico
-                            </button>
+                        <button 
+                          onClick={() => navigate(`/produtos/${product.idProduto}/kardex`)}
+                          className="btn btn-outline"
+                          style={{ padding: '0.25rem 0.5rem', fontSize: '0.8rem' }}
+                          title="Ver Kardex"
+                        >
+                          <FileText size={14} /> Histórico
+                        </button>
                             <button 
                                 className="btn btn-danger" 
                                 style={{ padding: '0.25rem 0.5rem', fontSize: '0.8rem', background: '#e02424', color: 'white', border: 'none' }}

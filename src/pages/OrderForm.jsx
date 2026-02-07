@@ -86,62 +86,26 @@ export default function OrderForm({ type }) { // type: 'compra', 'venda', 'devol
       const entityKey = isPurchase ? 'fornecedor' : 'cliente';
       const entityIdKey = isPurchase ? 'idFornecedor' : 'idCliente';
 
+      // Build items inside pedido
+      const opId = isPurchase ? 1 : isDevolution ? 3 : 2;
+      const itens = items.map(item => ({
+        operacaoEstoque: { idOperacaoEstoque: opId },
+        produto: { idProduto: parseInt(item.productId) },
+        quantidade: parseInt(item.quantity),
+        valorUnitario: parseFloat(item.unitPrice)
+      }));
+
       const pedidoBody = {
         nroDocumento: header.nroDocumento,
         dtTransacao: timestamp,
-        [entityKey]: { [entityIdKey]: parseInt(header.entityId) }
+        [entityKey]: { [entityIdKey]: parseInt(header.entityId) },
+        itens
       };
 
       if (isPurchase) {
         await api.registrarPedidoCompra(pedidoBody);
       } else {
         await api.registrarPedidoVenda(pedidoBody);
-      }
-
-      // 2. Add Items (Transacao)
-      // Note: We loop sequentially to avoid race conditions if backend assumes order
-        // 2. Add Items (Transacao)
-      for (const item of items) {
-        // ID Operacao: 1=COMPRA, 2=VENDA. 
-        // For Devolucao (Return), if we want to reverse a sale, it is an INPUT.
-        // Assuming ID 3 is configured for 'DEVOLUCAO_VENDA' or similar. 
-        // If not, we might need to use COMPRA (1) but linked to CLIENT, which our current DB structure makes hard (TransacaoCompra links to PedidoCompra -> Fornecedor).
-        // Best bet: Insert into TransacaoVenda but with a specific Operacao ID that represents 'Entry'.
-        // Or if the DB trigger subtracts for any TransacaoVenda, we might need a negative quantity?
-        // Let's assume ID 3 exists for now as requested.
-        const opId = isPurchase ? 1 : isDevolution ? 3 : 2; 
-
-        if (isDevolution) {
-             // For Devolucao, we treat it as a Venda Transaction (linked to Client) but with a special Op ID,
-             // OR we create a "PedidoVenda" but the quantity should be added back.
-             // We use 'adicionarItemVenda' because it links to 'pedidoVenda' table.
-             const transacaoBody = {
-                operacaoEstoque: { idOperacaoEstoque: opId }, 
-                produto: { idProduto: parseInt(item.productId) },
-                pedidoVenda: { nroDocumento: header.nroDocumento },
-                quantidade: parseInt(item.quantity), 
-                valorUnitario: parseFloat(item.unitPrice)
-             };
-             await api.adicionarItemVenda(transacaoBody);
-        } else if (isPurchase) {
-             const transacaoBody = {
-                operacaoEstoque: { idOperacaoEstoque: 1 },
-                produto: { idProduto: parseInt(item.productId) },
-                pedidoCompra: { nroDocumento: header.nroDocumento },
-                quantidade: parseInt(item.quantity),
-                valorUnitario: parseFloat(item.unitPrice)
-             };
-             await api.adicionarItemCompra(transacaoBody);
-        } else {
-             const transacaoBody = {
-                operacaoEstoque: { idOperacaoEstoque: 2 },
-                produto: { idProduto: parseInt(item.productId) },
-                pedidoVenda: { nroDocumento: header.nroDocumento },
-                quantidade: parseInt(item.quantity),
-                valorUnitario: parseFloat(item.unitPrice)
-             };
-             await api.adicionarItemVenda(transacaoBody);
-        }
       }
 
       alert('Operação realizada com sucesso!');
